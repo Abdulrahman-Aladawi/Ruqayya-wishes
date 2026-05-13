@@ -3,38 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruqayya's Graduation Wall 2026</title>
+    <title>Ruqayya's Graduation 2026</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; text-align: center; padding: 20px; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; }
-        input, textarea { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
-        button { background: #27ae60; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        button:disabled { background: #95a5a6; cursor: not-allowed; }
-        .wish-card { background: #fff; border-left: 5px solid #27ae60; margin: 15px 0; padding: 15px; text-align: left; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .pinned { border-left: 5px solid #f1c40f; background: #fff9e6; }
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --bg: #f8f9fa;
+        }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg); 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        /* Your specific image file */
+        .header-img { 
+            width: 180px; 
+            height: 180px; 
+            object-fit: cover;
+            margin-bottom: 15px; 
+            border-radius: 50%; 
+            border: 6px solid white; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15); 
+        }
+        .container { 
+            max-width: 500px; 
+            width: 100%; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 25px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
+            text-align: center; 
+        }
+        
+        h1 { color: #2d3436; margin-bottom: 5px; font-weight: 700; }
+        p.subtitle { color: #636e72; margin-bottom: 25px; font-size: 14px; }
+
+        input, textarea { 
+            width: 100%; padding: 14px; margin: 10px 0; 
+            border: 2px solid #f1f2f6; border-radius: 12px; 
+            box-sizing: border-box; font-size: 15px;
+        }
+        input:focus, textarea:focus { border-color: var(--secondary); outline: none; background: #fff; }
+
+        button#submit-btn { 
+            width: 100%; background: var(--primary); color: white; 
+            padding: 16px; border: none; border-radius: 12px; 
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+        button#submit-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4); }
+        button:disabled { background: #dfe6e9; cursor: not-allowed; box-shadow: none; }
+
+        .wishes-grid { width: 100%; max-width: 500px; margin-top: 40px; }
+        
+        /* Festive Post-it Style Cards */
+        .wish-card { 
+            background: white; padding: 25px; margin-bottom: 20px; 
+            border-radius: 18px; position: relative; text-align: left;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+            border-left: 8px solid #eee;
+            transition: transform 0.2s ease;
+        }
+        .wish-card:hover { transform: scale(1.02); }
+
+        /* Color rotation */
+        .wish-card:nth-child(4n+1) { border-left-color: #ff7675; }
+        .wish-card:nth-child(4n+2) { border-left-color: #74b9ff; }
+        .wish-card:nth-child(4n+3) { border-left-color: #55efc4; }
+        .wish-card:nth-child(4n+4) { border-left-color: #fdcb6e; }
+
+        /* Pinned Style */
+        .pinned { 
+            background: #fffdf2; 
+            border: 2px solid #f1c40f !important; 
+            box-shadow: 0 8px 25px rgba(241, 196, 15, 0.2);
+        }
+        .pin-badge { 
+            position: absolute; top: -10px; right: 10px; 
+            background: #f1c40f; color: white; padding: 4px 12px;
+            border-radius: 20px; font-size: 12px; font-weight: bold;
+        }
+        
+        .wish-header { font-weight: 700; color: #2d3436; font-size: 17px; }
+        .wish-date { font-size: 12px; color: #b2bec3; float: right; }
+        .wish-msg { color: #4b4b4b; line-height: 1.6; margin-top: 10px; font-size: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>🎓 Ruqayya's Graduation Wall</h1>
-        <p>Leave a wish for the June 2026 Celebration!</p>
-        
-        <input type="text" id="name" placeholder="Your Name" required>
-        <textarea id="message" rows="3" placeholder="Write your wish here..." required></textarea>
-        <br>
-        <button type="button" id="submit-btn" onclick="submitWish()">Send a Wish</button>
+    <!-- Using your specific graduation photo -->
+    <img src="graduation_photo.jpeg" alt="Ruqayya Graduation" class="header-img">
 
-        <hr>
-        <div id="wishes-container">
-            <!-- Wishes will appear here -->
-            <p>Loading wishes...</p>
-        </div>
+    <div class="container">
+        <h1>For Ruqayya Ahmad 🎓</h1>
+        <p class="subtitle">Class of June 2026 — Send your wishes!</p>
+        
+        <input type="text" id="name" placeholder="Your Name">
+        <textarea id="message" rows="3" placeholder="Write something special..."></textarea>
+        <button id="submit-btn" onclick="submitWish()">Send Wish ✨</button>
     </div>
 
+    <div class="wishes-grid" id="wishes-container"></div>
+
     <script>
-        // Load wishes immediately when page opens
         window.onload = loadWishes;
 
         async function loadWishes() {
@@ -42,33 +117,29 @@
                 const res = await fetch('/api/wishes');
                 const wishes = await res.json();
                 const container = document.getElementById('wishes-container');
-                container.innerHTML = wishes.length === 0 ? "<p>No wishes yet. Be the first!</p>" : "";
+                container.innerHTML = "";
 
                 wishes.forEach(wish => {
                     const card = document.createElement('div');
                     card.className = `wish-card ${wish.is_pinned ? 'pinned' : ''}`;
                     card.innerHTML = `
-                        <strong>${wish.name}</strong> <small>(${wish.date})</small>
-                        <p>${wish.message}</p>
+                        ${wish.is_pinned ? '<span class="pin-badge">⭐ PINNED</span>' : ''}
+                        <span class="wish-date">${wish.date}</span>
+                        <div class="wish-header">${wish.name}</div>
+                        <p class="wish-msg">${wish.message}</p>
                     `;
                     container.appendChild(card);
                 });
-            } catch (err) {
-                console.error("Error loading wishes:", err);
-            }
+            } catch (err) { console.error(err); }
         }
 
         async function submitWish() {
             const btn = document.getElementById('submit-btn');
-            const nameInput = document.getElementById('name');
-            const messageInput = document.getElementById('message');
+            const name = document.getElementById('name').value;
+            const msg = document.getElementById('message').value;
 
-            if (!nameInput.value || !messageInput.value) {
-                alert("Please fill in both fields!");
-                return;
-            }
+            if(!name || !msg) return alert("Please enter your name and a message!");
 
-            // Lock button to prevent issues
             btn.disabled = true;
             btn.innerText = "Sending...";
 
@@ -76,29 +147,18 @@
                 const response = await fetch('/api/wishes', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        name: nameInput.value, 
-                        location: "Visitor", 
-                        message: messageInput.value 
-                    })
+                    body: JSON.stringify({ name, location: "Visitor", message: msg })
                 });
 
                 if (response.ok) {
-                    alert("Wish sent successfully!");
-                    nameInput.value = "";
-                    messageInput.value = "";
-                    loadWishes(); // Refresh the list
-                } else {
-                    const errorText = await response.text();
-                    alert("Server Error: " + errorText);
+                    document.getElementById('name').value = "";
+                    document.getElementById('message').value = "";
+                    loadWishes();
                 }
-            } catch (err) {
-                console.error("Network error:", err);
-                alert("Connection failed. Check your database settings.");
-            } finally {
-                // Re-enable button no matter what
+            } catch (err) { alert("Error sending wish. Please try again."); }
+            finally {
                 btn.disabled = false;
-                btn.innerText = "Send a Wish";
+                btn.innerText = "Send Wish ✨";
             }
         }
     </script>
