@@ -1,97 +1,99 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+const { Pool } = require('pg'); // Switched to PostgreSQL
 const path = require('path');
 const app = express();
 
-// Use Render's port or default to 3000
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const db = new sqlite3.Database('./wishes.db', (err) => {
-    if (err) console.error('❌ Database connection error:', err);
-    else console.log('✅ Connected to SQLite Database');
+// Connection to Supabase
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
 });
 
-// Create table - Updated to include is_pinned column from the start
-db.run(`CREATE TABLE IF NOT EXISTS wishes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-    name TEXT, 
-    location TEXT, 
-    message TEXT, 
-    date TEXT,
-    is_pinned INTEGER DEFAULT 0
-)`, (err) => {
-    if (err) console.error('❌ Table creation error:', err);
-});
+// Create table in Supabase if it doesn't exist
+const initDb = async () => {
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS wishes (
+                id SERIAL PRIMARY KEY, 
+                name TEXT, 
+                location TEXT, 
+                message TEXT, 
+                date TEXT,
+                is_pinned INTEGER DEFAULT 0
+            )
+        `);
+        console.log('✅ Connected to Supabase & Table Ready');
+    } catch (err) {
+        console.error('❌ Database connection error:', err);
+    }
+};
+initDb();
 
 const PWD = "RuqayyaGrad2026";
 
 // API: Get all wishes (Pinned first, then newest)
-app.get('/api/wishes', (req, res) => {
-    const sql = "SELECT * FROM wishes ORDER BY is_pinned DESC, id DESC";
-    
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            console.error('❌ GET Error:', err);
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(rows);
-    });
+app.get('/api/wishes', async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM wishes ORDER BY is_pinned DESC, id DESC");
+        res.json(result.rows);
+    } catch (err) {
+        console.error('❌ GET Error:', err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // API: Save new wish
-app.post('/api/wishes', (req, res) => {
+app.post('/api/wishes', async (req, res) => {
     const { name, location, message } = req.body;
     const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
     
-    db.run("INSERT INTO wishes (name, location, message, date) VALUES (?, ?, ?, ?)", 
-    [name, location, message, date], function(err) {
-        if (err) {
-            console.error('❌ POST Error (Insert failed):', err);
-            return res.status(500).send(err.message);
-        }
-        console.log(`✨ New wish added with ID: ${this.lastID}`);
+    try {
+        await pool.query(
+            "INSERT INTO wishes (name, location, message, date) VALUES ($1, $2, $3, $4)", 
+            [name, location, message, date]
+        );
         res.sendStatus(200);
-    });
+    } catch (err) {
+        console.error('❌ POST Error:', err);
+        res.status(500).send(err.message);
+    }
 });
 
 // API: Toggle Pin status
-app.post('/api/pin-wish/:id', (req, res) => {
+app.post('/api/pin-wish/:id', async (req, res) => {
     const { password } = req.body;
     const wishId = req.params.id;
 
-    if (password !== PWD) {
-        return res.status(401).send("Wrong password");
-    }
+    if (password !== PWD) return res.status(401).send("Wrong password");
 
-    // Logic: Flips 0 to 1, or 1 to 0
-    db.run("UPDATE wishes SET is_pinned = 1 - is_pinned WHERE id = ?", [wishId], function(err) {
-        if (err) {
-            console.error('❌ PIN Error:', err);
-            return res.status(500).send(err.message);
-        }
-        console.log(`📌 Pin toggled for ID: ${wishId}`);
+    try {
+        await pool.query("UPDATE wishes SET is_pinned = 1 - is_pinned WHERE id = $1", [wishId]);
         res.sendStatus(200);
-    });
+    } catch (err) {
+        console.error('❌ PIN Error:', err);
+        res.status(500).send(err.message);
+    }
 });
 
 // API: Delete individual wish
-app.delete('/api/delete-wish/:id', (req, res) => {
+app.delete('/api/delete-wish/:id', async (req, res) => {
     const { password } = req.body; 
     const wishId = req.params.id;
 
-    if (password !== PWD) {
-        return res.status(401).send("Wrong password");
-    }
+    if (password !== PWD) return res.status(401).send("Wrong password");
 
-    db.run("DELETE FROM wishes WHERE id = ?", [wishId], function(err) {
-        if (err) return res.status(500).send(err.message);
-        console.log(`✅ Successfully deleted wish ID: ${wishId}`);
+    try {
+        await pool.query("DELETE FROM wishes WHERE id = $1", [wishId]);
         res.sendStatus(200);
-    });
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
 });
 
 app.listen(PORT, () => console.log(`🚀 Live at http://localhost:${PORT}`));
