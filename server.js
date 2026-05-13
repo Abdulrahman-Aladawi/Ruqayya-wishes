@@ -5,17 +5,16 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Connection to Supabase via Environment Variable
+// Connection to Render PostgreSQL
+// We don't need the SSL check for internal Render-to-Render connections
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false } // Required for connecting to Supabase from Render
+    connectionString: process.env.DATABASE_URL
 });
 
-// Create table automatically if it doesn't exist
+// Create table automatically
 const initDb = async () => {
     try {
         await pool.query(`
@@ -28,7 +27,7 @@ const initDb = async () => {
                 is_pinned INTEGER DEFAULT 0
             )
         `);
-        console.log('✅ Connected to Supabase & Table Ready');
+        console.log('✅ Connected to Render Postgres & Table Ready');
     } catch (err) {
         console.error('❌ Database initialization error:', err);
     }
@@ -37,14 +36,13 @@ initDb();
 
 const PWD = "RuqayyaGrad2026";
 
-// API: Get all wishes (Pinned first, then newest)
+// API: Get all wishes
 app.get('/api/wishes', async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM wishes ORDER BY is_pinned DESC, id DESC");
         res.json(result.rows);
     } catch (err) {
-        console.error('❌ GET Error:', err);
-        res.status(500).json({ error: "Failed to fetch wishes" });
+        res.status(500).json({ error: "Database fetch failed" });
     }
 });
 
@@ -60,37 +58,28 @@ app.post('/api/wishes', async (req, res) => {
         );
         res.sendStatus(200);
     } catch (err) {
-        console.error('❌ POST Error (Check password/URL):', err.message);
-        res.status(500).send("Database Error: " + err.message);
+        console.error('❌ POST Error:', err.message);
+        res.status(500).send("Error saving wish");
     }
 });
 
-// API: Toggle Pin status
+// API: Pin and Delete logic remains the same...
 app.post('/api/pin-wish/:id', async (req, res) => {
     const { password } = req.body;
-    const wishId = req.params.id;
     if (password !== PWD) return res.status(401).send("Wrong password");
-
     try {
-        await pool.query("UPDATE wishes SET is_pinned = 1 - is_pinned WHERE id = $1", [wishId]);
+        await pool.query("UPDATE wishes SET is_pinned = 1 - is_pinned WHERE id = $1", [req.params.id]);
         res.sendStatus(200);
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+    } catch (err) { res.status(500).send(err.message); }
 });
 
-// API: Delete individual wish
 app.delete('/api/delete-wish/:id', async (req, res) => {
     const { password } = req.body; 
-    const wishId = req.params.id;
     if (password !== PWD) return res.status(401).send("Wrong password");
-
     try {
-        await pool.query("DELETE FROM wishes WHERE id = $1", [wishId]);
+        await pool.query("DELETE FROM wishes WHERE id = $1", [req.params.id]);
         res.sendStatus(200);
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+    } catch (err) { res.status(500).send(err.message); }
 });
 
-app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Live on Render at port ${PORT}`));
