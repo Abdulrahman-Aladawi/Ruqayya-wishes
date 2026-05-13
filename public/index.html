@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruqayya Ahmad's Wishes Wall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body { background-color: #4a1d5a; }
+        .glass-card { background: #fdf5f0; border-radius: 2rem; }
+        /* Style for pinned cards */
+        .pinned-card { border: 2px solid #fbbf24 !important; background-color: #fffdf2 !important; }
+        .wish-card { border-left: 5px solid #ff85a2; transition: transform 0.2s; }
+        .wish-card:hover { transform: translateY(-3px); }
+    </style>
+</head>
+<body class="p-4 md:p-10 flex justify-center items-center min-h-screen">
+
+    <div class="glass-card w-full max-w-5xl p-8 shadow-2xl relative">
+        <!-- Countdown Timer -->
+        <div class="mb-10 text-center">
+            <h2 class="text-purple-800 font-semibold mb-3 tracking-widest uppercase text-sm">Graduation Countdown</h2>
+            <div class="flex justify-center gap-4 text-purple-900">
+                <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-sm w-20">
+                    <div id="days" class="text-3xl font-bold text-pink-600">00</div>
+                    <div class="text-[10px] uppercase font-bold opacity-60">Days</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-sm w-20">
+                    <div id="hours" class="text-3xl font-bold text-pink-600">00</div>
+                    <div class="text-[10px] uppercase font-bold opacity-60">Hrs</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-sm w-20">
+                    <div id="minutes" class="text-3xl font-bold text-pink-600">00</div>
+                    <div class="text-[10px] uppercase font-bold opacity-60">Min</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl shadow-sm w-20">
+                    <div id="seconds" class="text-3xl font-bold text-pink-600">00</div>
+                    <div class="text-[10px] uppercase font-bold opacity-60">Sec</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-4">
+                <img src="graduation_photo.jpeg" alt="Ruqayya Ahmad" class="w-12 h-12 rounded-full object-cover shadow-sm">
+                <h1 class="text-3xl font-bold text-pink-600">🌸 Ruqayya's Wishes Wall 🌸</h1>
+            </div>
+            <div class="flex gap-2">
+                <span class="bg-yellow-200 text-yellow-800 px-4 py-1 rounded-full text-sm font-bold">
+                    <i class="fas fa-comment"></i> <span id="wish-count">0</span> wishes
+                </span>
+            </div>
+        </div>
+
+        <hr class="border-dashed border-orange-200 mb-8">
+
+        <!-- Form Section -->
+        <div class="bg-white rounded-3xl p-6 shadow-inner mb-10">
+            <form id="wishForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-purple-800 mb-1">الاسم / Name</label>
+                    <input type="text" id="userName" placeholder="Your Name" class="w-full p-3 rounded-xl border border-pink-100 bg-pink-50/30 focus:outline-none focus:ring-2 focus:ring-pink-300" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-purple-800 mb-1">المدينة / From</label>
+                    <input type="text" id="userLocation" placeholder="City" class="w-full p-3 rounded-xl border border-pink-100 bg-pink-50/30 focus:outline-none focus:ring-2 focus:ring-pink-300">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-purple-800 mb-1">Your wish for Ruqayya ✨</label>
+                    <textarea id="userWish" rows="3" placeholder="Write your message..." class="w-full p-3 rounded-xl border border-pink-100 bg-pink-50/30 focus:outline-none focus:ring-2 focus:ring-pink-300" required></textarea>
+                </div>
+                <div class="md:col-span-2 flex justify-end">
+                    <button type="submit" class="bg-pink-300 hover:bg-pink-400 text-purple-900 font-bold py-3 px-8 rounded-full shadow-md">
+                        <i class="fas fa-paper-plane"></i> Send wish
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Wishes Display Grid -->
+        <div id="wishesContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+    </div>
+
+<script>
+    async function loadWishes() {
+        const res = await fetch('/api/wishes');
+        const wishes = await res.json();
+        document.getElementById('wish-count').innerText = wishes.length;
+        
+        document.getElementById('wishesContainer').innerHTML = wishes.map(w => `
+            <div class="bg-white p-5 rounded-2xl shadow-sm wish-card relative group ${w.is_pinned ? 'pinned-card' : ''}">
+                
+                <!-- Pin Display (Only shows if is_pinned is 1) -->
+                ${w.is_pinned ? `
+                    <div class="absolute -top-3 -right-2 bg-yellow-400 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10">
+                        <i class="fas fa-thumbtack text-xs"></i>
+                    </div>
+                ` : ''}
+
+                <!-- Hidden Admin Pin Button (Hover top-right to see) -->
+                <button onclick="togglePin(${w.id})" class="opacity-0 group-hover:opacity-100 absolute top-2 right-2 text-gray-300 hover:text-yellow-500 transition-opacity">
+                    <i class="fas fa-thumbtack text-xs"></i>
+                </button>
+
+                <div class="font-bold text-pink-600 mb-2">😊 ${w.name} ${w.location ? '✦ ' + w.location : ''}</div>
+                <p class="text-gray-700 text-sm">${w.message}</p>
+                <div class="text-right mt-4 text-[10px] text-gray-400 font-medium">${w.date || ''}</div>
+            </div>
+        `).join('');
+    }
+
+    // Submit new wish
+    document.getElementById('wishForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+            name: document.getElementById('userName').value,
+            location: document.getElementById('userLocation').value,
+            message: document.getElementById('userWish').value
+        };
+        const res = await fetch('/api/wishes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+     if (res.ok) { 
+        // 1. Trigger the Confetti!
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#ff85a2', '#fbb6ce', '#4a1d5a'] // Matching your pink/purple theme
+        });
+
+        // 2. Reset the form and reload the wall
+        document.getElementById('wishForm').reset(); 
+        loadWishes(); 
+    }
+});
+    // Admin Pin Function
+    async function togglePin(id) {
+        const password = prompt("Enter Admin Password to Pin/Unpin:");
+        if (!password) return;
+
+        const res = await fetch(`/api/pin-wish/${id}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: password })
+        });
+
+        if (res.ok) {
+            loadWishes();
+        } else {
+            alert("Wrong password!");
+        }
+    }
+
+   // Updated Countdown Logic with Celebration
+function startCountdown() {
+    const targetDate = new Date("June 19, 2026 00:00:00").getTime();
+
+    const timer = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        // Calculations for days, hours, minutes and seconds
+        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Update the HTML elements
+        document.getElementById("days").innerText = d;
+        document.getElementById("hours").innerText = h;
+        document.getElementById("minutes").innerText = m;
+        document.getElementById("seconds").innerText = s;
+
+        // CELEBRATION MODE: If the countdown reaches zero
+        if (distance < 0) {
+            clearInterval(timer);
+            
+            // Set displays to zero
+            document.getElementById("days").innerText = "0";
+            document.getElementById("hours").innerText = "0";
+            document.getElementById("minutes").innerText = "0";
+            document.getElementById("seconds").innerText = "0";
+
+            // Launch continuous confetti for 15 seconds
+            const duration = 15 * 1000;
+            const animationEnd = Date.now() + duration;
+
+            const celebration = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(celebration);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                // Random bursts from the left and right
+                confetti({
+                    particleCount,
+                    spread: 70,
+                    origin: { x: 0, y: 0.6 },
+                    colors: ['#ff85a2', '#4a1d5a']
+                });
+                confetti({
+                    particleCount,
+                    spread: 70,
+                    origin: { x: 1, y: 0.6 },
+                    colors: ['#ff85a2', '#4a1d5a']
+                });
+            }, 250);
+        }
+    }, 1000);
+}
+    // Initialize
+    loadWishes();
+    startCountdown(); 
+</script>
+</body>
+</html>
