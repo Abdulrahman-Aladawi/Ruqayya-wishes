@@ -6,110 +6,114 @@
     <title>Ruqayya's Graduation 2026</title>
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --bg: #f8f9fa;
+            /* Pink to Blue Gradient Colors */
+            --pink: #ff9a9e;
+            --blue: #a1c4fd;
+            --primary-text: #2d3436;
         }
         body { 
             font-family: 'Poppins', sans-serif; 
-            background-color: var(--bg); 
+            /* Pink to Blue Gradient Background */
+            background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
+            background-attachment: fixed;
             margin: 0; 
             padding: 20px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+            min-height: 100vh;
         }
-        /* Your specific image file */
         .header-img { 
-            width: 180px; 
-            height: 180px; 
-            object-fit: cover;
-            margin-bottom: 15px; 
-            border-radius: 50%; 
-            border: 6px solid white; 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15); 
+            width: 160px; height: 160px; object-fit: cover;
+            margin-bottom: 15px; border-radius: 50%; 
+            border: 5px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
         }
         .container { 
-            max-width: 500px; 
-            width: 100%; 
-            background: white; 
-            padding: 30px; 
-            border-radius: 25px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
-            text-align: center; 
+            max-width: 500px; width: 100%; 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 30px; border-radius: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; 
         }
         
-        h1 { color: #2d3436; margin-bottom: 5px; font-weight: 700; }
-        p.subtitle { color: #636e72; margin-bottom: 25px; font-size: 14px; }
+        h1 { color: #d63031; margin-bottom: 5px; font-weight: 700; }
+        .subtitle { color: #636e72; margin-bottom: 20px; font-size: 14px; }
+
+        /* Countdown Style */
+        .countdown-box {
+            background: #fff;
+            border: 2px dashed var(--pink);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .countdown-text { font-weight: bold; color: #6c5ce7; font-size: 18px; }
+        .arabic-text { font-family: 'Amiri', serif; font-size: 20px; display: block; margin-bottom: 5px; }
 
         input, textarea { 
             width: 100%; padding: 14px; margin: 10px 0; 
             border: 2px solid #f1f2f6; border-radius: 12px; 
-            box-sizing: border-box; font-size: 15px;
+            box-sizing: border-box; font-size: 15px; text-align: center;
         }
-        input:focus, textarea:focus { border-color: var(--secondary); outline: none; background: #fff; }
 
         button#submit-btn { 
-            width: 100%; background: var(--primary); color: white; 
+            width: 100%; background: #6c5ce7; color: white; 
             padding: 16px; border: none; border-radius: 12px; 
-            font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
         }
-        button#submit-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4); }
-        button:disabled { background: #dfe6e9; cursor: not-allowed; box-shadow: none; }
+        button#submit-btn:hover { transform: scale(1.02); background: #5849c4; }
 
-        .wishes-grid { width: 100%; max-width: 500px; margin-top: 40px; }
-        
-        /* Festive Post-it Style Cards */
+        .wishes-grid { width: 100%; max-width: 500px; margin-top: 30px; }
         .wish-card { 
-            background: white; padding: 25px; margin-bottom: 20px; 
-            border-radius: 18px; position: relative; text-align: left;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.02);
-            border-left: 8px solid #eee;
-            transition: transform 0.2s ease;
+            background: white; padding: 20px; margin-bottom: 15px; 
+            border-radius: 15px; border-left: 8px solid var(--pink);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .wish-card:hover { transform: scale(1.02); }
-
-        /* Color rotation */
-        .wish-card:nth-child(4n+1) { border-left-color: #ff7675; }
-        .wish-card:nth-child(4n+2) { border-left-color: #74b9ff; }
-        .wish-card:nth-child(4n+3) { border-left-color: #55efc4; }
-        .wish-card:nth-child(4n+4) { border-left-color: #fdcb6e; }
-
-        /* Pinned Style */
-        .pinned { 
-            background: #fffdf2; 
-            border: 2px solid #f1c40f !important; 
-            box-shadow: 0 8px 25px rgba(241, 196, 15, 0.2);
-        }
-        .pin-badge { 
-            position: absolute; top: -10px; right: 10px; 
-            background: #f1c40f; color: white; padding: 4px 12px;
-            border-radius: 20px; font-size: 12px; font-weight: bold;
-        }
-        
-        .wish-header { font-weight: 700; color: #2d3436; font-size: 17px; }
-        .wish-date { font-size: 12px; color: #b2bec3; float: right; }
-        .wish-msg { color: #4b4b4b; line-height: 1.6; margin-top: 10px; font-size: 15px; }
+        .pinned { border: 2px solid #f1c40f !important; background: #fffdf2; }
     </style>
 </head>
 <body>
 
-    <!-- Using your specific graduation photo -->
-    <img src="graduation_photo.jpeg" alt="Ruqayya Graduation" class="header-img">
+    <img src="graduation_photo.jpeg" alt="Ruqayya" class="header-img">
 
     <div class="container">
-        <h1>For Ruqayya Ahmad 🎓</h1>
-        <p class="subtitle">Class of June 2026 — Send your wishes!</p>
+        <h1>Wish Something For Ruqayya Ahmad 🎓</h1>
+        <p class="subtitle">Celebrating her success in June 2026</p>
         
-        <input type="text" id="name" placeholder="Your Name">
-        <textarea id="message" rows="3" placeholder="Write something special..."></textarea>
-        <button id="submit-btn" onclick="submitWish()">Send Wish ✨</button>
+        <!-- Countdown above the name box -->
+        <div class="countdown-box">
+            <span class="arabic-text">The Countdown</span>
+            <div id="timer" class="countdown-text">Loading countdown...</div>
+            <span style="font-size: 12px; color: #b2bec3;">Days : Hours : Mins : Secs</span>
+        </div>
+
+        <input type="text" id="name" placeholder="Your Name ">
+        <textarea id="message" rows="3" placeholder="Your Wish "></textarea>
+        <button id="submit-btn" onclick="submitWish()">Send Wish ✨ </button>
     </div>
 
     <div class="wishes-grid" id="wishes-container"></div>
 
     <script>
+        // Set the graduation date
+        const graduationDate = new Date("June 03, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = graduationDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML = `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("timer").innerHTML = "GRADUATED! 🎉 مبروك التخرج";
+            }
+        }
+        const countdownInterval = setInterval(updateCountdown, 1000);
         window.onload = loadWishes;
 
         async function loadWishes() {
@@ -118,48 +122,32 @@
                 const wishes = await res.json();
                 const container = document.getElementById('wishes-container');
                 container.innerHTML = "";
-
                 wishes.forEach(wish => {
                     const card = document.createElement('div');
                     card.className = `wish-card ${wish.is_pinned ? 'pinned' : ''}`;
-                    card.innerHTML = `
-                        ${wish.is_pinned ? '<span class="pin-badge">⭐ PINNED</span>' : ''}
-                        <span class="wish-date">${wish.date}</span>
-                        <div class="wish-header">${wish.name}</div>
-                        <p class="wish-msg">${wish.message}</p>
-                    `;
+                    card.innerHTML = `<strong>${wish.name}</strong><p>${wish.message}</p>`;
                     container.appendChild(card);
                 });
             } catch (err) { console.error(err); }
         }
 
         async function submitWish() {
-            const btn = document.getElementById('submit-btn');
             const name = document.getElementById('name').value;
             const msg = document.getElementById('message').value;
-
-            if(!name || !msg) return alert("Please enter your name and a message!");
-
-            btn.disabled = true;
-            btn.innerText = "Sending...";
-
+            if(!name || !msg) return alert("Please fill in both fields!");
+            
             try {
                 const response = await fetch('/api/wishes', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, location: "Visitor", message: msg })
+                    body: JSON.stringify({ name, location: "Local", message: msg })
                 });
-
                 if (response.ok) {
                     document.getElementById('name').value = "";
                     document.getElementById('message').value = "";
                     loadWishes();
                 }
-            } catch (err) { alert("Error sending wish. Please try again."); }
-            finally {
-                btn.disabled = false;
-                btn.innerText = "Send Wish ✨";
-            }
+            } catch (err) { console.error(err); }
         }
     </script>
 </body>
