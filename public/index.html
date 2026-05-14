@@ -4,71 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ruqayya's Graduation 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            /* Pink to Blue Gradient Colors */
-            --pink: #ff9a9e;
-            --blue: #a1c4fd;
-            --primary-text: #2d3436;
-        }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            /* Pink to Blue Gradient Background */
-            background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
-            background-attachment: fixed;
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh;
-        }
-        .header-img { 
-            width: 160px; height: 160px; object-fit: cover;
-            margin-bottom: 15px; border-radius: 50%; 
-            border: 5px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
-        }
-        .container { 
-            max-width: 500px; width: 100%; 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 30px; border-radius: 25px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; 
-        }
         
-        h1 { color: #d63031; margin-bottom: 5px; font-weight: 700; }
-        .subtitle { color: #636e72; margin-bottom: 20px; font-size: 14px; }
+        :root {
+    --pink: #ff9a9e;
+    --blue: #a1c4fd;
+    --primary-text: #2d3436;
+}
 
-        /* Countdown Style */
-        .countdown-box {
-            background: #fff;
-            border: 2px dashed var(--pink);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-        .countdown-text { font-weight: bold; color: #6c5ce7; font-size: 18px; }
-        .arabic-text { font-family: 'Amiri', serif; font-size: 20px; display: block; margin-bottom: 5px; }
+body { 
+    /* Font family cascade: Poppins for English, Cairo for Arabic */
+    font-family: 'Poppins', 'Cairo', sans-serif; 
+    background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
+    background-attachment: fixed;
+    margin: 0; 
+    padding: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    min-height: 100vh;
+}
 
-        input, textarea { 
-            width: 100%; padding: 14px; margin: 10px 0; 
-            border: 2px solid #f1f2f6; border-radius: 12px; 
-            box-sizing: border-box; font-size: 15px; text-align: center;
-        }
+.header-img { 
+    width: 160px; height: 160px; object-fit: cover;
+    margin-bottom: 15px; border-radius: 50%; 
+    border: 5px solid rgba(255, 255, 255, 0.8); 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+}
 
-        button#submit-btn { 
-            width: 100%; background: #6c5ce7; color: white; 
-            padding: 16px; border: none; border-radius: 12px; 
-            font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
-        }
-        button#submit-btn:hover { transform: scale(1.02); background: #5849c4; }
+/* The Frosted Glass Container that matches the background */
+.container { 
+    max-width: 500px; width: 100%; 
+    background: rgba(255, 255, 255, 0.45); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    padding: 30px; 
+    border-radius: 25px; 
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle shiny border */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05); 
+    text-align: center; 
+    box-sizing: border-box;
+}
 
-        .wishes-grid { width: 100%; max-width: 500px; margin-top: 30px; }
-        .wish-card { 
-            background: white; padding: 20px; margin-bottom: 15px; 
-            border-radius: 15px; border-left: 8px solid var(--pink);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .pinned { border: 2px solid #f1c40f !important; background: #fffdf2; }
+h1 { color: #2d3436; margin-bottom: 5px; font-weight: 700; }
+.subtitle { color: #57606f; margin-bottom: 20px; font-size: 14px; font-weight: 400; }
+
+/* Countdown Box matching the translucent vibe */
+.countdown-box {
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px dashed rgba(214, 48, 49, 0.4);
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+.countdown-text { font-weight: 700; color: #6c5ce7; font-size: 18px; letter-spacing: 0.5px; }
+.arabic-text { font-weight: 700; font-size: 18px; display: block; margin-bottom: 5px; }
+
+/* Blending the input fields too */
+input, textarea { 
+    width: 100%; padding: 14px; margin: 10px 0; 
+    border: 1px solid rgba(255, 255, 255, 0.6); 
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px; 
+    box-sizing: border-box; font-size: 15px; text-align: center;
+    font-family: 'Poppins', 'Cairo', sans-serif;
+    transition: 0.3s;
+}
+input:focus, textarea:focus { 
+    border-color: #6c5ce7; 
+    outline: none; 
+    background: #ffffff; 
+}
+
+button#submit-btn { 
+    width: 100%; background: #6c5ce7; color: white; 
+    padding: 16px; border: none; border-radius: 12px; 
+    font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
+    font-family: 'Poppins', 'Cairo', sans-serif;
+    box-shadow: 0 8px 15px rgba(108, 92, 231, 0.2);
+}
+button#submit-btn:hover { transform: scale(1.01); background: #5849c4; box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3); }
+
+.wishes-grid { width: 100%; max-width: 500px; margin-top: 30px; }
+
+/* Wishing Cards matching the new design standard */
+.wish-card { 
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 20px; margin-bottom: 15px; 
+    border-radius: 15px; border-left: 8px solid var(--pink);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+}
+.pinned { border: 2px solid #f1c40f !important; background: rgba(255, 253, 242, 0.9); }
     </style>
 </head>
 <body>
