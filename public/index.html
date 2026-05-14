@@ -50,33 +50,50 @@ body {
 h1 { color: #2d3436; margin-bottom: 5px; font-weight: 700; }
 .subtitle { color: #57606f; margin-bottom: 20px; font-size: 14px; font-weight: 400; }
 
-/* Countdown Box matching the translucent vibe */
+/* Premium Glassmorphism Countdown Container */
 .countdown-box {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 22px 15px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03), 
+                inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.countdown-box:hover {
+    transform: translateY(-2px);
+}
+
+/* Beautiful Heading Style */
+.arabic-text { 
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700; 
+    font-size: 17px; 
+    color: #2d3436;
+    display: block; 
+    margin-bottom: 12px; 
+    letter-spacing: 0.5px;
+}
+
+/* Styling the raw JavaScript output text string */
+.countdown-text { 
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; 
+    font-size: 26px; /* Bigger, bolder numbers */
+    color: #6c5ce7; /* Sleek graduation purple */
+    letter-spacing: 2px; /* Gives the numbers breathing room */
+    display: inline-block;
     background: rgba(255, 255, 255, 0.7);
-    border: 2px dashed rgba(214, 48, 49, 0.4);
-    padding: 15px;
-    border-radius: 15px;
-    margin-bottom: 20px;
+    padding: 8px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
 }
-.countdown-text { font-weight: 700; color: #6c5ce7; font-size: 18px; letter-spacing: 0.5px; }
-.arabic-text { font-weight: 700; font-size: 18px; display: block; margin-bottom: 5px; }
-
-/* Blending the input fields too */
-input, textarea { 
-    width: 100%; padding: 14px; margin: 10px 0; 
-    border: 1px solid rgba(255, 255, 255, 0.6); 
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 12px; 
-    box-sizing: border-box; font-size: 15px; text-align: center;
-    font-family: 'Poppins', 'Cairo', sans-serif;
-    transition: 0.3s;
-}
-input:focus, textarea:focus { 
-    border-color: #6c5ce7; 
-    outline: none; 
-    background: #ffffff; 
-}
-
 button#submit-btn { 
     width: 100%; background: #6c5ce7; color: white; 
     padding: 16px; border: none; border-radius: 12px; 
