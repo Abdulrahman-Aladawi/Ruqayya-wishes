@@ -8,67 +8,72 @@
     <style>
         
         :root {
-    --pink: #ff9a9e;
-    --blue: #a1c4fd;
-    --primary-text: #2d3436;
+            /* Pink to Blue Gradient Colors */
+            --pink: #ff9a9e;
+            --blue: #a1c4fd;
+            --primary-text: #2d3436;
+        }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            /* Pink to Blue Gradient Background */
+            background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
+            background-attachment: fixed;
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+        }
+        .header-img { 
+            width: 160px; height: 160px; object-fit: cover;
+            margin-bottom: 15px; border-radius: 50%; 
+            border: 5px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+        }
+        .container { 
+            max-width: 500px; 
+width: 100%; 
+background: rgba(255, 255, 255, 0.45); /* Translucent white to blend with gradient */
+backdrop-filter: blur(10px); 
+-webkit-backdrop-filter: blur(10px); 
+padding: 30px; 
+border-radius: 25px; 
+border: 1px solid rgba(255, 255, 255, 0.4); 
+box-shadow: 0 20px 40px rgba(0,0,0,0.05); 
+text-align: center; 
+box-sizing: border-box;
+        }
+        
+       h1 { 
+    font-family: 'Cairo', 'Poppins', sans-serif;
+    color: #2d3436; 
+    margin-bottom: 5px; 
+    font-weight: 700; 
+    font-size: 28px; /* Making it pop a bit more */
 }
+        .subtitle { color: #636e72; margin-bottom: 20px; font-size: 14px; }
 
-body { 
-    /* Font family cascade: Poppins for English, Cairo for Arabic */
-    font-family: 'Poppins', 'Cairo', sans-serif; 
-    background: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
-    background-attachment: fixed;
-    margin: 0; 
-    padding: 20px; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    min-height: 100vh;
+        /* Countdown Style */
+        .countdown-box {
+            background: #fff;
+            border: 2px dashed var(--pink);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+       .countdown-text { 
+    font-family: 'Poppins', 'Cairo', sans-serif;
+    font-weight: 700; 
+    font-size: 26px; 
+    color: #6c5ce7; 
+    letter-spacing: 2px; 
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 8px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
 }
-
-.header-img { 
-    width: 160px; height: 160px; object-fit: cover;
-    margin-bottom: 15px; border-radius: 50%; 
-    border: 5px solid rgba(255, 255, 255, 0.8); 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-}
-
-/* The Frosted Glass Container that matches the background */
-.container { 
-    max-width: 500px; width: 100%; 
-    background: rgba(255, 255, 255, 0.45); /* Semi-transparent white */
-    backdrop-filter: blur(10px); /* Frosted glass effect */
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
-    padding: 30px; 
-    border-radius: 25px; 
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle shiny border */
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05); 
-    text-align: center; 
-    box-sizing: border-box;
-}
-
-h1 { color: #2d3436; margin-bottom: 5px; font-weight: 700; }
-.subtitle { color: #57606f; margin-bottom: 20px; font-size: 14px; font-weight: 400; }
-
-/* Premium Glassmorphism Countdown Container */
-.countdown-box {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 22px 15px;
-    border-radius: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03), 
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
-    transition: transform 0.3s ease;
-}
-
-.countdown-box:hover {
-    transform: translateY(-2px);
-}
-
-/* Beautiful Heading Style */
 .arabic-text { 
     font-family: 'Cairo', sans-serif;
     font-weight: 700; 
@@ -78,43 +83,27 @@ h1 { color: #2d3436; margin-bottom: 5px; font-weight: 700; }
     margin-bottom: 12px; 
     letter-spacing: 0.5px;
 }
+        input, textarea { 
+            width: 100%; padding: 14px; margin: 10px 0; 
+            border: 2px solid #f1f2f6; border-radius: 12px; 
+            box-sizing: border-box; font-size: 15px; text-align: center;
+        }
 
-/* Styling the raw JavaScript output text string */
-.countdown-text { 
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700; 
-    font-size: 26px; /* Bigger, bolder numbers */
-    color: #6c5ce7; /* Sleek graduation purple */
-    letter-spacing: 2px; /* Gives the numbers breathing room */
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.7);
-    padding: 8px 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
-    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
-}
-button#submit-btn { 
-    width: 100%; background: #6c5ce7; color: white; 
-    padding: 16px; border: none; border-radius: 12px; 
-    font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
-    font-family: 'Poppins', 'Cairo', sans-serif;
-    box-shadow: 0 8px 15px rgba(108, 92, 231, 0.2);
-}
-button#submit-btn:hover { transform: scale(1.01); background: #5849c4; box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3); }
+        button#submit-btn { 
+            width: 100%; background: #6c5ce7; color: white; 
+            padding: 16px; border: none; border-radius: 12px; 
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-family: 'Poppins', 'Cairo', sans-serif;
+        }
+        button#submit-btn:hover { transform: scale(1.02); background: #5849c4; }
 
-.wishes-grid { width: 100%; max-width: 500px; margin-top: 30px; }
-
-/* Wishing Cards matching the new design standard */
-.wish-card { 
-    background: rgba(255, 255, 255, 0.85); 
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    padding: 20px; margin-bottom: 15px; 
-    border-radius: 15px; border-left: 8px solid var(--pink);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-}
-.pinned { border: 2px solid #f1c40f !important; background: rgba(255, 253, 242, 0.9); }
+        .wishes-grid { width: 100%; max-width: 500px; margin-top: 30px; }
+        .wish-card { 
+            background: white; padding: 20px; margin-bottom: 15px; 
+            border-radius: 15px; border-left: 8px solid var(--pink);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .pinned { border: 2px solid #f1c40f !important; background: #fffdf2; }
     </style>
 </head>
 <body>
@@ -122,7 +111,7 @@ button#submit-btn:hover { transform: scale(1.01); background: #5849c4; box-shado
     <img src="graduation_photo.jpeg" alt="Ruqayya" class="header-img">
 
     <div class="container">
-        <h1>Wish Something For Ruqayya Ahmad 🎓</h1>
+        <h1>Lasst uns Ruqayyas Zukunft erhellen 🎓</h1>
         <p class="subtitle">Celebrating her success in June 2026</p>
         
         <!-- Countdown above the name box -->
